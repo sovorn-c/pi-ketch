@@ -1,0 +1,74 @@
+{
+  "name": "pi-ketch",
+  "version": "0.1.0",
+  "description": "Agent-native web search, public code search, docs, scraping, and bounded crawling for Pi, powered by Ketch.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "ketch",
+    "pi-extension",
+    "agent-tools",
+    "web-search",
+    "research",
+    "scraping",
+    "code-search"
+  ],
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "files": [
+    "src/",
+    "skills/",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/*.test.ts",
+    "validate": "npm run typecheck && npm test && npm pack --dry-run",
+    "prepublishOnly": "npm run validate"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-ai": "^0.80.6",
+    "@earendil-works/pi-coding-agent": "^0.80.6",
+    "@earendil-works/pi-tui": "^0.80.6",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typebox": "^1.1.38",
+    "typescript": "^5.9.3"
+  },
+  "author": {
+    "name": "sovorn-c",
+    "email": "cheasovorn4@gmail.com",
+    "url": "https://github.com/sovorn-c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sovorn-c/pi-ketch.git"
+  },
+  "homepage": "https://github.com/sovorn-c/pi-ketch#readme",
+  "bugs": {
+    "url": "https://github.com/sovorn-c/pi-ketch/issues"
+  },
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
