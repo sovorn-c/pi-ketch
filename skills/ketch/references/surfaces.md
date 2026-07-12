@@ -2,7 +2,7 @@
 
 ## `ketch_search`
 
-Use for the open web. A routine search should omit `backend`, `multi`, and `allBackends` so Ketch uses the user's configured default. For contested, multi-part, or deep research, set `allBackends: true`; Ketch translates this to `--multi=all` and dynamically queries every backend it currently considers usable. `backend` selects one provider and `multi` selects an explicit provider list; all three modes are mutually exclusive. Set `scrape: true` only when fetched content from every result is needed. Pair it with a low `limit` and explicit `maxChars`.
+Use for the open web. Every routine search must omit `backend`, `multi`, and `allBackends` so Ketch uses the user's single configured default; never automatically submit `multi: ["brave", "ddg"]` or another provider list. Reserve federation for deeper work: set `allBackends: true` for contested, multi-part, or deep research, or use `multi` only for deeper corroboration or a user-requested provider comparison. Ketch translates `allBackends` to `--multi=all` and dynamically queries every backend it currently considers usable. `backend` selects one provider and `multi` selects an explicit provider list; all three modes are mutually exclusive. Set `scrape: true` only when fetched content from every result is needed. Pair it with a low `limit` and explicit `maxChars`.
 
 ## `ketch_code`
 

@@ -17,8 +17,7 @@ export default function ketchExtension(pi: ExtensionAPI): void {
   registerDiagnostics(pi);
 
   pi.on("session_start", (_event, ctx) => {
-    const theme = ctx.ui.theme;
-    ctx.ui.setStatus(STATUS_ID, `${theme.fg("accent", "🌐 ketch:")} ${theme.fg("success", "active")}`);
+    ctx.ui.setStatus(STATUS_ID, "🌐 ketch: active");
   });
 
   pi.on("session_shutdown", (_event, ctx) => {

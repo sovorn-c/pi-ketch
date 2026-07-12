@@ -73,9 +73,9 @@ You only need one working search backend to get started:
 - **Brave**: direct API search with a Brave API key.
 - **SearXNG**: self-hosted metasearch through a configured SearXNG URL.
 
-You can use either one as the default backend. Routine `ketch_search` calls use that single configured default, which is the recommended behavior for normal searches. Brave is the simplest direct default; SearXNG adds self-hosted metasearch.
+You can use either one as the default backend. Every routine `ketch_search` call must omit `backend`, `multi`, and `allBackends`, using only that single configured default. It should not automatically combine Brave and DuckDuckGo or any other providers. Brave is the simplest direct default; SearXNG adds self-hosted metasearch.
 
-For contested, multi-part, or deep research, `pi-ketch` can set `allBackends: true`. Ketch then uses `--multi=all` to discover and query every search backend it currently considers usable; users and agents do not need to hardcode provider names. An explicit `multi` list remains available for targeted provider comparisons.
+Federated search is reserved for deeper work. For contested, multi-part, or deep research, `pi-ketch` can set `allBackends: true`. Ketch then uses `--multi=all` to discover and query every search backend it currently considers usable; users and agents do not need to hardcode provider names. An explicit `multi` list remains available only for deeper corroboration or user-requested provider comparisons.
 
 Additional search backends—DuckDuckGo, Exa, Firecrawl, and Keenable—are optional. Firecrawl is used here only as an explicit or federated web-search backend; it does not power `ketch_scrape` or `ketch_crawl`.
 

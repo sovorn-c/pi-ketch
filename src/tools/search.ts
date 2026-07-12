@@ -27,12 +27,12 @@ export function registerSearchTool(pi: ExtensionAPI): void {
     defineTool({
       name: "ketch_search",
       label: "Ketch Web Search",
-      description: "Search the live web through Ketch using configured Brave, DuckDuckGo, SearXNG, Exa, Firecrawl, or Keenable backends. Can optionally scrape bounded content from each result.",
+      description: "Search the live web through Ketch. Routine searches must omit backend, multi, and allBackends so Ketch uses one configured default backend. Federated modes are reserved for deeper research. Can optionally scrape bounded content from each result.",
       parameters: SearchParams,
-      promptSnippet: "ketch_search: Search the current external web through Ketch; cite returned URLs.",
+      promptSnippet: "ketch_search: For routine web search, omit backend options and use only Ketch's configured default; cite returned URLs.",
       promptGuidelines: [
-        "Use ketch_search without backend options for routine searches so Ketch uses the user's configured default backend.",
-        "Use ketch_search with allBackends for contested, multi-part, or deep research that needs results from every currently usable backend; cite returned URLs.",
+        "For every routine search, omit backend, multi, and allBackends. Do not automatically send multi: ['brave', 'ddg'] or any other provider list; Ketch must use the user's single configured default backend.",
+        "Use multi only for deeper corroboration or an explicit request to compare particular providers. Prefer allBackends for contested, multi-part, or deep research that needs every currently usable backend.",
         "When ketch_search uses scrape, bound each fetched result with maxChars.",
       ],
       ...ketchRenderers("ketch_search"),

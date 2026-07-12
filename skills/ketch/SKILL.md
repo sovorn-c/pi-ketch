@@ -33,9 +33,9 @@ Do not route routine web search or URL extraction through another extension's ov
 ## Default workflow
 
 1. Choose one surface using the table above.
-2. For routine web search, call `ketch_search` without `backend`, `multi`, or `allBackends`; Ketch will use the user's configured default backend.
-3. For contested, time-sensitive, multi-part, or deep research, use `allBackends: true`; Ketch dynamically queries every backend it currently considers usable, so do not hardcode provider names.
-4. Use an explicit `backend` or `multi` list only when the user requests particular providers or a targeted backend retry is needed.
+2. For every routine web search, call `ketch_search` without `backend`, `multi`, or `allBackends`; Ketch must use the user's single configured default backend. Never automatically send `multi: ["brave", "ddg"]` or any other provider list.
+3. Reserve federated search for deeper work: use `allBackends: true` for contested, time-sensitive, multi-part, or deep research. Ketch dynamically queries every backend it currently considers usable, so do not hardcode provider names.
+4. Use an explicit `multi` list only for deeper corroboration or when the user requests particular providers. Use an explicit single `backend` only for a user request or targeted retry.
 5. Make bounded calls, cite the URL supporting every externally sourced claim, and state material retrieval failures instead of treating missing sources as evidence.
 
 For deep research, read `references/research.md`. For detailed parameters and gotchas, read `references/surfaces.md`. For missing keys, browser setup, or backend failures, read `references/setup.md`.
