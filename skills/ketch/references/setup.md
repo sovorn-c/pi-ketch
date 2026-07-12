@@ -4,7 +4,7 @@ Configuration and installation are operator actions. Never perform them without 
 
 ## Read-only diagnosis
 
-Use `/ketch:version`, `/ketch:config`, or `/ketch:doctor` when available. The installed binary and effective config outrank static documentation.
+Use `/ketch-version`, `/ketch-config`, or `/ketch-doctor` when available. The installed binary and effective config outrank static documentation.
 
 ## Installation
 

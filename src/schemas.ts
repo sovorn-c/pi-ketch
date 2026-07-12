@@ -8,7 +8,8 @@ const DocsBackend = StringEnum(["context7"] as const);
 export const SearchParams = Type.Object({
   query: Type.String({ description: "Web search query." }),
   backend: Type.Optional(SearchBackend),
-  multi: Type.Optional(Type.Array(SearchBackend, { description: "Federated-search backends. Use all six entries to query every configured backend.", maxItems: 6 })),
+  multi: Type.Optional(Type.Array(SearchBackend, { description: "Explicit search backends to query together. Cannot be combined with backend or allBackends.", maxItems: 6 })),
+  allBackends: Type.Optional(Type.Boolean({ description: "Query every search backend Ketch currently considers usable. Intended for deep research, not routine searches." })),
   limit: Type.Optional(Type.Integer({ description: "Maximum results. Defaults to Ketch config; capped at 20.", minimum: 1, maximum: 20 })),
   scrape: Type.Optional(Type.Boolean({ description: "Fetch result pages and include extracted content." })),
   trim: Type.Optional(Type.Boolean({ description: "Strip Markdown formatting from scraped content." })),

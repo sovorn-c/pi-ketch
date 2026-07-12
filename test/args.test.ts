@@ -9,7 +9,9 @@ import { buildSearchArgs } from "../src/tools/search.js";
 test("builds bounded search arguments", () => {
   assert.deepEqual(buildSearchArgs({ query: "hello", scrape: true }), ["search", "--scrape", "--max-chars", "6000", "--json", "--", "hello"]);
   assert.deepEqual(buildSearchArgs({ query: "--help" }), ["search", "--json", "--", "--help"]);
+  assert.deepEqual(buildSearchArgs({ query: "deep research", allBackends: true }), ["search", "--multi=all", "--json", "--", "deep research"]);
   assert.throws(() => buildSearchArgs({ query: "x", backend: "brave", multi: ["ddg"] }), /mutually exclusive/);
+  assert.throws(() => buildSearchArgs({ query: "x", multi: ["brave", "ddg"], allBackends: true }), /mutually exclusive/);
 });
 
 test("validates code backend regex support", () => {

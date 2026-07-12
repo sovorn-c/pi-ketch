@@ -1,7 +1,7 @@
 {
   "name": "pi-ketch",
-  "version": "0.1.0",
-  "description": "Agent-native web search, public code search, docs, scraping, and bounded crawling for Pi, powered by Ketch.",
+  "version": "0.1.1",
+  "description": "Agent-native web research tools for Pi: multi-backend search, public code search, library docs, scraping, crawling, and browser rendering, powered by Ketch.",
   "type": "module",
   "license": "MIT",
   "keywords": [

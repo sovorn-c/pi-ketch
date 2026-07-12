@@ -13,13 +13,14 @@ Before calling tools, define a small budget:
 
 ## Execute
 
-1. Search with narrowly varied queries rather than repeating synonyms.
-2. Deduplicate hosts and select sources deliberately.
-3. Prefer primary sources plus one independent corroborating source.
-4. Scrape only selected URLs unless every result is genuinely needed.
-5. Use `ketch_code` to verify claims about real-world adoption.
-6. Use `ketch_docs` for library contracts rather than relying on blog summaries.
-7. Check warnings and partial failures after every batch or crawl.
+1. Use `ketch_search` with `allBackends: true` so Ketch queries every search backend it currently considers usable; do not hardcode backend names.
+2. Search with narrowly varied queries rather than repeating synonyms.
+3. Deduplicate hosts and select sources deliberately.
+4. Prefer primary sources plus one independent corroborating source.
+5. Scrape only selected URLs unless every result is genuinely needed. Retry once with `forceBrowser: true` only when a normal scrape returns empty, incomplete, or JavaScript-shell content.
+6. Use `ketch_code` to verify claims about real-world adoption.
+7. Use `ketch_docs` for library contracts rather than relying on blog summaries.
+8. Check warnings and partial failures after every batch or crawl.
 
 ## Synthesize
 

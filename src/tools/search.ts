@@ -7,10 +7,12 @@ import { SearchParams, type SearchArgs } from "../schemas.js";
 import { addFlag } from "./common.js";
 
 export function buildSearchArgs(params: SearchArgs): string[] {
-  if (params.backend && params.multi?.length) throw new Error("ketch_search: backend and multi are mutually exclusive.");
+  const modes = Number(Boolean(params.backend)) + Number(Boolean(params.multi?.length)) + Number(Boolean(params.allBackends));
+  if (modes > 1) throw new Error("ketch_search: backend, multi, and allBackends are mutually exclusive.");
   const args = ["search"];
   addFlag(args, "--backend", params.backend);
   if (params.multi?.length) args.push(`--multi=${params.multi.join(",")}`);
+  if (params.allBackends) args.push("--multi=all");
   addFlag(args, "--limit", params.limit);
   addFlag(args, "--scrape", params.scrape);
   addFlag(args, "--trim", params.trim);
@@ -29,7 +31,8 @@ export function registerSearchTool(pi: ExtensionAPI): void {
       parameters: SearchParams,
       promptSnippet: "ketch_search: Search the current external web through Ketch; cite returned URLs.",
       promptGuidelines: [
-        "Use ketch_search for current external information, comparisons, news, and opinions; cite returned URLs.",
+        "Use ketch_search without backend options for routine searches so Ketch uses the user's configured default backend.",
+        "Use ketch_search with allBackends for contested, multi-part, or deep research that needs results from every currently usable backend; cite returned URLs.",
         "When ketch_search uses scrape, bound each fetched result with maxChars.",
       ],
       ...ketchRenderers("ketch_search"),
