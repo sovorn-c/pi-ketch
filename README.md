@@ -42,13 +42,7 @@ Install Chromium:
 ketch browser install
 ```
 
-The command prints a `Configure with:` command containing the installed browser path. Run that command, for example:
-
-```sh
-ketch config set browser /Users/you/Library/Caches/ketch/browser/chromium-1321438/Chromium.app/Contents/MacOS/Chromium
-```
-
-Verify the setup:
+The installer prints the exact `ketch config set browser ...` command for the browser it installed. Copy and run that command, then verify the setup:
 
 ```sh
 ketch browser status
@@ -61,36 +55,54 @@ For a known URL, start with a normal `ketch_scrape` call. Ketch fetches the page
 
 ### Search backend setup
 
-Once `pi-ketch` is installed, its Ketch tools are the default Pi workflow for web search and URL extraction:
+Web search needs one default backend. Brave is Ketch's default and requires an API key:
 
-- Use `ketch_search` instead of another extension's overlapping web-search tool.
-- Use `ketch_scrape` instead of another extension's overlapping page-extraction tool.
+```sh
+ketch config set brave_api_key <key>
+```
 
-If your Pi setup already enables a competing web-search or web-extraction extension, disable that extension in `~/.pi/agent/settings.json` while keeping it installed. This avoids duplicate tools and conflicting routing instructions; do not uninstall it unless you want to remove it permanently.
+To use another provider by default, select it once in Ketch:
 
-You only need one working search backend to get started:
+```sh
+ketch config set backend ddg
+# Other choices: searxng, exa, firecrawl, keenable
+```
 
-- **Brave**: direct API search with a Brave API key.
-- **SearXNG**: self-hosted metasearch through a configured SearXNG URL.
+Some providers need credentials or a custom URL. Use Ketch's [configuration reference](https://1broseidon.github.io/ketch/) for the current keys and provider requirements rather than adding secrets to Pi settings.
 
-You can use either one as the default backend. Every routine `ketch_search` call must omit `backend`, `multi`, and `allBackends`, using only that single configured default. It should not automatically combine Brave and DuckDuckGo or any other providers. Brave is the simplest direct default; SearXNG adds self-hosted metasearch.
+Check what Ketch can use before opening Pi:
 
-Federated search is reserved for deeper work. For contested, multi-part, or deep research, `pi-ketch` can set `allBackends: true`. Ketch then uses `--multi=all` to discover and query every search backend it currently considers usable; users and agents do not need to hardcode provider names. An explicit `multi` list remains available only for deeper corroboration or user-requested provider comparisons.
+```sh
+ketch config
+ketch doctor
+ketch search "test query"
+```
 
-Additional search backends—DuckDuckGo, Exa, Firecrawl, and Keenable—are optional. Firecrawl is used here only as an explicit or federated web-search backend; it does not power `ketch_scrape` or `ketch_crawl`.
+The operator chooses the backend; the agent normally does not. The bundled skill tells Pi to call `ketch_search` without `backend`, `multi`, or `allBackends`, so routine searches use your configured default. For deep or contested research, the agent may use `allBackends: true` to query every usable provider and fuse the rankings. An explicit `multi` list is reserved for a provider comparison you requested.
+
+If another Pi extension exposes overlapping search or page-extraction tools, disable that extension in `~/.pi/agent/settings.json` to prevent duplicate tools and conflicting routing instructions. You can leave the package installed.
 
 ### Full capability setup
 
-For the complete Ketch feature set, configure the backends for the capabilities you want:
+Configure only the surfaces you plan to use. Each row below maps an agent tool to the Ketch service behind it.
 
-- Search: one default such as Brave or SearXNG. Configure additional providers only for fallback, explicit comparisons, or `allBackends` deep research.
-- Optional federated search: add providers such as Firecrawl when you want them included in multi-backend web searches.
-- Public code search: grep.app, Sourcegraph, and GitHub. GitHub search uses the `gh` CLI token when available.
-- Library documentation: a Context7 API key for `ketch_docs`.
-- JavaScript-rendered pages: the optional Chromium browser setup above.
-- Caching: enabled automatically through Ketch's local bbolt cache.
+| Pi tool | Ketch capability | Starts with | Optional setup |
+| --- | --- | --- | --- |
+| `ketch_search` | Web search | Your configured default backend | Add more search providers for federated research. Brave and Firecrawl require API keys. |
+| `ketch_scrape` | Page extraction | Direct HTTP fetching and the local page cache | Install Chromium for JavaScript-rendered pages. |
+| `ketch_crawl` | Bounded site crawling | Direct HTTP fetching and the local page cache | Install Chromium for JavaScript-rendered pages. |
+| `ketch_code` | Public OSS code search | grep.app | Sourcegraph needs no setup. GitHub can use `gh auth login`, `GITHUB_TOKEN`, or Ketch's `github_token`. |
+| `ketch_docs` | Library documentation | Context7 | Set `context7_api_key`; this surface requires a Context7 key. |
 
-Run `ketch doctor` to check every configured surface. A healthy setup reports all applicable checks as `ok`; optional backends without credentials can be left disabled.
+A practical full setup is:
+
+1. Configure and test one default search backend.
+2. Add a Context7 key if you want library documentation.
+3. Authenticate GitHub if you want GitHub Code Search in addition to grep.app and Sourcegraph.
+4. Install Chromium if you need rendered pages.
+5. Add extra search providers only if you expect to use federated research.
+
+Run `ketch doctor` after changing configuration. It probes configured search providers, code search, Context7, the browser, and the cache. Optional services can remain unconfigured; the tools backed by them will report a precondition error when called.
 
 ## What it adds
 
