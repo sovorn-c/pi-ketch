@@ -1,6 +1,6 @@
 {
   "name": "pi-ketch",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Agent-native web research tools for Pi: multi-backend search, public code search, library docs, scraping, crawling, and browser rendering, powered by Ketch.",
   "type": "module",
   "license": "MIT",
@@ -28,6 +28,8 @@
     "src/",
     "skills/",
     "README.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
     "LICENSE",
     "tsconfig.json"
   ],
