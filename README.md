@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/pi-ketch.svg)](https://www.npmjs.com/package/pi-ketch)
 [![license](https://img.shields.io/npm/l/pi-ketch.svg)](./LICENSE)
-[![Pi package](https://img.shields.io/badge/Pi-package-6f42c1)](https://pi.dev/packages)
+[![Pi package](https://img.shields.io/badge/Pi-package-6f42c1)](https://pi.dev/packages/pi-ketch)
 
 **Web research tools for [Pi](https://pi.dev), powered by [Ketch](https://github.com/1broseidon/ketch).**
 
