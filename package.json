@@ -36,6 +36,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test test/*.test.ts",
+    "ketch:surface": "node --import tsx scripts/ketch-surface.ts",
     "validate": "npm run typecheck && npm test && npm pack --dry-run",
     "prepublishOnly": "npm run validate"
   },
