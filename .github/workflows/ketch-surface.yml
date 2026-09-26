@@ -1,0 +1,60 @@
+name: Ketch surface
+
+on:
+  schedule:
+    - cron: "0 15 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Install current Ketch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          dir="$RUNNER_TEMP/ketch"
+          mkdir -p "$dir"
+          gh release download --repo 1broseidon/ketch --pattern 'ketch_*_linux_x86_64.tar.gz' --dir "$dir"
+          tar -xzf "$dir"/ketch_*_linux_x86_64.tar.gz -C "$dir"
+          bin=$(find "$dir" -type f -name ketch | head -n 1)
+          test -n "$bin"
+          chmod +x "$bin"
+          mkdir -p "$HOME/.local/bin"
+          cp "$bin" "$HOME/.local/bin/ketch"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Probe
+        id: probe
+        run: |
+          set +e
+          npm run ketch:surface > "$RUNNER_TEMP/probe.txt" 2>&1
+          code=$?
+          cat "$RUNNER_TEMP/probe.txt"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+      - name: Open or update one drift issue
+        if: steps.probe.outputs.code == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          num=$(gh issue list --state open --limit 100 --json number,title --jq '.[] | select(.title == "Ketch surface drift") | .number' | head -n 1)
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body-file "$RUNNER_TEMP/probe.txt"
+          else
+            gh issue create --title "Ketch surface drift" --body-file "$RUNNER_TEMP/probe.txt"
+          fi
+          exit 1
+      - name: Fail when the probe could not run
+        if: steps.probe.outputs.code != '0' && steps.probe.outputs.code != '1'
+        run: exit 1

@@ -76,6 +76,8 @@ ketch doctor
 
 A failed optional backend is not automatically a `pi-ketch` failure. Confirm that the backend is configured, then reproduce the call with Ketch directly.
 
+Watch [1broseidon/ketch](https://github.com/1broseidon/ketch) → Releases for same-day notice. `npm run ketch:surface` checks the installed `ketch` against the flags this package sends, and that `ketch search --json` with no query still exits 2. A weekly GitHub Action runs that command on the current Ketch release and opens or updates one issue titled `Ketch surface drift` when it fails. A green run does not touch issues. The workflow is not required for pull requests to merge. `npm test` still uses a fake binary.
+
 ## Change guidelines
 
 - Keep tool inputs bounded and preserve the limits in `src/schemas.ts`.
